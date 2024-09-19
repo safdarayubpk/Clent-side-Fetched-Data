@@ -2,15 +2,23 @@
 
 import { useState, useEffect } from 'react';
 
+// Define the Post interface
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
+
 export default function FetchClientPage() {
-  const [data, setData] = useState([]);
+  // Specify the type of data as an array of Post
+  const [data, setData] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-        const json = await response.json();
+        const json: Post[] = await response.json(); // Type assertion for response data
         setData(json.slice(0, 10)); // Fetch only the first 10 posts
       } catch (error) {
         console.error('Error fetching data:', error);
